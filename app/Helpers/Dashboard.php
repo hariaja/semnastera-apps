@@ -27,7 +27,7 @@ function participantCount()
 
 function myActivity()
 {
-  return ActivityLog::with('user')->limit(5)->orderBy('id', 'ASC')->get();
+  return ActivityLog::with('user')->where('causer_id', userLogin()->id)->limit(5)->orderBy('id', 'ASC')->get();
 }
 
 function helpers()
