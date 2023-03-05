@@ -29,3 +29,8 @@ function myActivity()
 {
   return ActivityLog::with('user')->limit(5)->orderBy('id', 'ASC')->get();
 }
+
+function helpers()
+{
+  # code...
+}
