@@ -18,6 +18,20 @@
     </div>
     <div class="block-content block-content-full">
 
+      <div class="row">
+        <div class="col-md-4">
+          <div class="mb-3">
+            <label for="status" class="form-label">{{ trans('Filter Status Transaksi') }}</label>
+            <select type="text" class="form-select" name="status" id="status">
+              <option selected>{{ trans('Semua Status') }}</option>
+              <option value="Pending">{{ trans('Pending') }}</option>
+              <option value="Approved">{{ trans('Approved') }}</option>
+              <option value="Rejected">{{ trans('Rejected') }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       @if(userRole() != App\Helpers\StatusConstant::ADMIN)
         @can('transactions.create')
           <div class="mb-3">
@@ -51,7 +65,11 @@
           [5, 10, 20]
         ],
         ajax: {
-          url: '{{ route('transactions.index') }}'
+          url: '{{ route('transactions.index') }}',
+          data: function (d) {
+            d.status = $('#status').val()
+            d.search = $('input[type="search"]').val()
+          }
         },
         columns: [
           {
@@ -97,6 +115,10 @@
           }
         ],
       })
+    })
+
+    $('#status').change(function() {
+      transactions_table.draw();
     })
 
     function deleteRegistration(url) {

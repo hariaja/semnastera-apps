@@ -112,11 +112,11 @@ class TransactionService
     # code...
   }
 
-  public function datatables()
+  public function datatables($request)
   {
     DB::beginTransaction();
     try {
-      $execute = $this->transactionRepository->datatables();
+      $execute = $this->transactionRepository->datatables($request);
     } catch (Exception $e) {
       DB::rollBack();
       Log::info($e->getMessage());

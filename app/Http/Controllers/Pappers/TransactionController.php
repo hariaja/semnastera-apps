@@ -27,8 +27,9 @@ class TransactionController extends Controller
   public function index(Request $request)
   {
     $registration = $this->registrationService->filter();
+
     if ($request->ajax()) :
-      return $this->service->datatables();
+      return $this->service->datatables($request);
     endif;
 
     if (userRole() == StatusConstant::ADMIN) :

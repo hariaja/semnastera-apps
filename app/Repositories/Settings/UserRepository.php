@@ -20,7 +20,7 @@ class UserRepository
 
   public function index()
   {
-    return $this->user->orderBy('first_name', 'ASC')->get();
+    return $this->user->orderBy('id', 'ASC')->select('*');
   }
 
   public function admin()
@@ -53,7 +53,8 @@ class UserRepository
 
   public function datatables($request)
   {
-    $query = $this->user->select('*');
+    // $query = $this->user->select('*');
+    $query = $this->index();
     $dataTables = DataTables::of($query)->addIndexColumn()
       ->editColumn('first_name', function ($query) {
         return $query->getUserFullNameLong();

@@ -21,12 +21,12 @@ class TransactionRepository
 
   public function index()
   {
-    return $this->transaction->latest()->get();
+    return $this->transaction->select('*');
   }
 
   public function self()
   {
-    return $this->transaction->where('user_id', userLogin()->id)->get();
+    return $this->transaction->where('user_id', userLogin()->id)->select('*');
   }
 
   public function store($request, $proof)
@@ -64,7 +64,7 @@ class TransactionRepository
     return $transaction->delete();
   }
 
-  public function datatables()
+  public function datatables($request)
   {
     if (userRole() == StatusConstant::ADMIN || userRole() == StatusConstant::REVIEWER) :
       $query = $this->index();
@@ -78,6 +78,19 @@ class TransactionRepository
       })
       ->addColumn('upload_date', function ($query) {
         return customDate($query->upload_date, true);
+      })
+      ->filter(function ($instance) use ($request) {
+        if ($request->status == 'Pending' || $request->status == 'Rejected' || $request->status == 'Approved') :
+          $instance->where('status', $request->status);
+        endif;
+
+        if (!empty($request->get('search'))) :
+          $instance->where(function ($w) use ($request) {
+            $search = $request->get('search');
+            $w->orWhere('amount', 'LIKE', '%' . $search . '%')
+              ->orWhere('upload_date', 'LIKE', '%' . $search . '%');
+          });
+        endif;
       })
       ->addColumn('status', function ($query) {
         $pending = '<span class="badge bg-secondary">' . $query->status . '</span>';
