@@ -3,6 +3,8 @@
 use App\Models\User;
 use App\Helpers\StatusConstant;
 use App\Models\ActivityLog;
+use SebastianBergmann\Type\TrueType;
+use Yajra\DataTables\Facades\DataTables;
 
 function reviewerCount()
 {
@@ -27,7 +29,20 @@ function participantCount()
 
 function myActivity()
 {
-  return ActivityLog::with('user')->where('causer_id', userLogin()->id)->limit(5)->orderBy('id', 'ASC')->get();
+  return ActivityLog::with('user')->where('causer_id', userLogin()->id)->orderBy('id', 'ASC')->get();
+}
+
+function activityLogDatatables()
+{
+  $data = myActivity();
+  return DataTables::of($data)->addIndexColumn()
+    ->editColumn('created_at', function ($row) {
+      return customDate($row->created_at, true);
+    })
+    ->addColumn('time', function ($row) {
+      return $row->created_at->format('H:i:s');
+    })
+    ->make(true);
 }
 
 function helpers()

@@ -59,30 +59,65 @@
   <div class="block-content block-content-full">
 
     <div class="table-responsive p-1">
-      <table class="table table-bordered table-hover table-striped table-vcenter">
-        <thead>
-          <tr>
-            <th class="text-center">Deskripsi</th>
-            <th class="text-center">Tanggal</th>
-            <th class="text-center">Jam</th>
-          </tr>
-        </thead>
-        <tbody>
-          @forelse (myActivity() as $data)
-            <tr>
-              <td class="text-center">{{ $data->description }}</td>
-              <td class="text-center">{{ customDate($data->created_at, true) }}</td>
-              <td class="text-center">{{ $data->created_at->format('H:i:s') }}</td>
-            </tr>
-          @empty
-            <tr>
-              <td colspan="3" class="text-center"><strong>Tidak Ada Aktivitas</strong></td>
-            </tr>
-          @endforelse
-        </tbody>
-      </table>
+      <table class="table table-bordered table-hover table-striped table-vcenter activities-table"></table>
     </div>
 
   </div>
 </div>
 @endsection
+@push('javascript')
+  <script>
+    let activities_table
+    $(function () {
+      activities_table = $('.activities-table').DataTable({
+        processing: true,
+        serverSide: true,
+        retrieve: true,
+        responsive: true,
+        autoWidth: false,
+        pageLength: 5,
+        lengthMenu: [
+          [5, 10, 20],
+          [5, 10, 20]
+        ],
+        ajax: {
+          url: '{{ route('home') }}'
+        },
+        columns: [
+          {
+            "title": "No.",
+            "data": "DT_RowIndex",
+            "searchable": false, 
+            "sortable": false,
+            "class": "text-center",
+            "width": "10%"
+          },
+          {
+            "name": "description",
+            "title": "Deskripsi",
+            "data": "description",
+            "class": 'text-center',
+            "searchable": true,
+            "orderable": true,
+          },
+          {
+            "name": "created_at",
+            "title": "Tanggal",
+            "data": "created_at",
+            "class": 'text-center',
+            "searchable": false,
+            "orderable": false,
+          },
+          {
+            "name": "time",
+            "title": "Jam",
+            "data": "time",
+            "class": 'text-center',
+            "searchable": false,
+            "orderable": false,
+          },
+        ],
+      })
+    })
+  </script>
+@endpush
