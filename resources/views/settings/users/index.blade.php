@@ -23,7 +23,7 @@
           <div class="mb-3">
             <label for="status" class="form-label">{{ trans('Filter Status Pengguna') }}</label>
             <select type="text" class="form-select" name="status" id="status">
-              <option selected>{{ trans('Pilih Status') }}</option>
+              <option selected>{{ trans('Semua Status') }}</option>
               <option value="1">{{ trans('Active') }}</option>
               <option value="0">{{ trans('Inactive') }}</option>
             </select>

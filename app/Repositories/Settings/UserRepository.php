@@ -83,7 +83,7 @@ class UserRepository
       ->addColumn('action', function ($query) {
         $only = '<div class="dropdown">
           <a href="#" class="text-dark dropdown-toggle" data-bs-toggle="dropdown">
-            Choose
+            Opsi
           </a>
           <ul class="dropdown-menu mb-0">
             <li class="mb-0">
@@ -94,7 +94,7 @@ class UserRepository
 
         $except = '<div class="dropdown">
             <a href="#" class="text-dark dropdown-toggle" data-bs-toggle="dropdown">
-              Choose
+              Opsi
             </a>
             <ul class="dropdown-menu mb-0">
               <li class="mb-0">

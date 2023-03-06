@@ -21,6 +21,7 @@ return [
   'create' => 'Melakukan Penambahan Data',
   'update' => 'Melakukan Perubahan Data',
   'delete' => 'Melakukan Penghapusan Data',
+  'status' => 'Melakukan Perubahan Status',
   'password' => 'Melakukan Perubahan Kata Sandi',
 
   'users' => [

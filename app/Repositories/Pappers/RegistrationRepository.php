@@ -8,13 +8,16 @@ use App\Models\Registration;
 use App\Helpers\StatusConstant;
 use Illuminate\Database\Eloquent\Model;
 use Yajra\DataTables\Facades\DataTables;
+use App\Repositories\Activities\ActivityRepository;
 
 class RegistrationRepository
 {
 
-  public function __construct(protected Registration $registration)
-  {
-    // 
+  public function __construct(
+    protected Registration $registration,
+    protected ActivityRepository $activityRepository
+  ) {
+    # code...
   }
 
   public function query()
@@ -38,13 +41,15 @@ class RegistrationRepository
 
   public function store($request)
   {
-    return $this->registration->create([
+    $registration = $this->registration->create([
       'code' => Str::random(10),
       'title' => $request->title,
       'date_start' => $request->date_start,
       'date_end' => $request->date_end,
       'status' => $request->status,
     ]);
+    $this->activityRepository->store($registration, userLogin()->id, trans('page.create') . ' Jadwal Submit Makalah');
+    return $registration;
   }
 
   public function show($code): Model
@@ -55,6 +60,7 @@ class RegistrationRepository
   public function update($code, $request)
   {
     $registration = $this->show($code);
+    $this->activityRepository->store($registration, userLogin()->id, trans('page.update') . ' Jadwal Submit Makalah');
     return $registration->update([
       'title' => $request->title,
       'date_start' => $request->date_start,
@@ -66,6 +72,7 @@ class RegistrationRepository
   public function destroy($code)
   {
     $registration = $this->show($code);
+    $this->activityRepository->store($registration, userLogin()->id, trans('page.delete') . ' Jadwal Submit Makalah');
     return $registration->delete();
   }
 

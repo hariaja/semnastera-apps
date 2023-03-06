@@ -5,14 +5,15 @@ namespace App\Repositories\Settings;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 use Yajra\DataTables\Facades\DataTables;
+use App\Repositories\Activities\ActivityRepository;
 
 class RoleRepository
 {
-  protected $role;
-
-  public function __construct(Role $role)
-  {
-    $this->role = $role;
+  public function __construct(
+    protected Role $role,
+    protected ActivityRepository $activityRepository
+  ) {
+    # code...
   }
 
   public function index()
@@ -27,9 +28,11 @@ class RoleRepository
 
   public function store($request)
   {
-    return $this->role->create([
+    $role = $this->role->create([
       'name' => $request->name
     ])->syncPermissions($request->permission);
+    $this->activityRepository->store($role, userLogin()->id, trans('page.create') . ' Role & Permission');
+    return $role;
   }
 
   public function update($id, $request)
@@ -39,6 +42,7 @@ class RoleRepository
       'name' => $request->name
     ]);
     $data->syncPermissions($request->permission);
+    $this->activityRepository->store($data, userLogin()->id, trans('page.update') . ' Role & Permission');
     return $data;
   }
 
@@ -46,6 +50,7 @@ class RoleRepository
   {
     $delete = $this->show($id);
     $delete->delete();
+    $this->activityRepository->store($delete, userLogin()->id, trans('page.delete') . ' Role & Permission');
     return $delete;
   }
 

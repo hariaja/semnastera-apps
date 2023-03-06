@@ -7,13 +7,16 @@ use Illuminate\Support\Str;
 use App\Helpers\StatusConstant;
 use Illuminate\Database\Eloquent\Model;
 use Yajra\DataTables\Facades\DataTables;
+use App\Repositories\Activities\ActivityRepository;
 
 class TransactionRepository
 {
 
-  public function __construct(protected Transaction $transaction)
-  {
-    // 
+  public function __construct(
+    protected Transaction $transaction,
+    protected ActivityRepository $activityRepository
+  ) {
+    # code...
   }
 
   public function index()
@@ -28,13 +31,15 @@ class TransactionRepository
 
   public function store($request, $proof)
   {
-    return $this->transaction->create([
+    $transaction = $this->transaction->create([
       'code' => Str::random(10),
       'user_id' => userLogin()->id,
       'amount' => $request->amount,
       'upload_date' => now()->format('Y-m-d'),
       'proof' => $proof
     ]);
+    $this->activityRepository->store($transaction, userLogin()->id, trans('page.create') . ' Transaksi');
+    return $transaction;
   }
 
   public function show($id): Model
@@ -45,6 +50,7 @@ class TransactionRepository
   public function update($id, $request, $reason)
   {
     $transaction = $this->show($id);
+    $this->activityRepository->store($transaction, userLogin()->id, trans('page.update') . ' Transaksi');
     return $transaction->updateOrFail([
       'status' => $request->status,
       'reason' => $reason
@@ -54,6 +60,7 @@ class TransactionRepository
   public function destroy($id)
   {
     $transaction = $this->show($id);
+    $this->activityRepository->store($transaction, userLogin()->id, trans('page.delete') . ' Transaksi');
     return $transaction->delete();
   }
 
