@@ -69,12 +69,10 @@
             </div>
           </form>
           <!-- END Sign In Form -->
+
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-
 @endsection
