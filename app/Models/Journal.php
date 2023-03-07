@@ -10,7 +10,7 @@ class Journal extends Model
   use HasFactory;
 
   protected $fillable = [
-    'code', 'user_id', 'title', 'category', 'abstract', 'upload_year', 'file'
+    'code', 'user_id', 'title', 'category', 'abstract', 'upload_year', 'file', 'status'
   ];
 
   /**

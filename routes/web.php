@@ -30,7 +30,6 @@ Auth::routes(['verify' => true]);
 Route::get('home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'permission', 'verified'])->group(function () {
-
   # Settings
   Route::prefix('settings')->group(function () {
     Route::resource('roles', RoleController::class)->except('show');

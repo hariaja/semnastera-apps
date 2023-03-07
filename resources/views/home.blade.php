@@ -10,45 +10,89 @@
   </div>
 @endsection
 @section('content')
-<div class="container-fluid">
-  <div class="fade-in">
-    <div class="row items-push">
-      <div class="col-sm-6 col-xl">
-        <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-sea-op">
-          <div class="block-content block-content-full flex-grow-1">
-            <div class="item rounded-3 bg-body mx-auto my-3">
-              <i class="fa fa-file-pdf fa-lg text-primary"></i>
+
+@if(userRole() == 'Administrator')
+  <div class="container-fluid">
+    <div class="fade-in">
+      <div class="row items-push">
+        <div class="col-sm-6 col-xl">
+          <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-sea-op">
+            <div class="block-content block-content-full flex-grow-1">
+              <div class="item rounded-3 bg-body mx-auto my-3">
+                <i class="fa fa-file-pdf fa-lg text-primary"></i>
+              </div>
+              <div class="fs-1 fw-bold text-white">{{ reviewerCount() }}</div>
+              <div class="text-muted mb-3 text-white">{{ trans('Total Reviewer') }}</div>
             </div>
-            <div class="fs-1 fw-bold text-white">{{ reviewerCount() }}</div>
-            <div class="text-muted mb-3 text-white">{{ trans('Total Reviewer') }}</div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-6 col-xl">
-        <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-lake-op">
-          <div class="block-content block-content-full flex-grow-1">
-            <div class="item rounded-3 bg-body mx-auto my-3">
-              <i class="fa fa-users fa-lg text-primary"></i>
+        <div class="col-sm-6 col-xl">
+          <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-lake-op">
+            <div class="block-content block-content-full flex-grow-1">
+              <div class="item rounded-3 bg-body mx-auto my-3">
+                <i class="fa fa-users fa-lg text-primary"></i>
+              </div>
+              <div class="fs-1 fw-bold text-white">{{ presenterCount() }}</div>
+              <div class="text-muted mb-3 text-white">{{ trans('Total Pemakalah') }}</div>
             </div>
-            <div class="fs-1 fw-bold text-white">{{ presenterCount() }}</div>
-            <div class="text-muted mb-3 text-white">{{ trans('Total Pemakalah') }}</div>
           </div>
         </div>
-      </div>
-      <div class="col-sm-6 col-xl">
-        <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-fruit">
-          <div class="block-content block-content-full flex-grow-1">
-            <div class="item rounded-3 bg-body mx-auto my-3">
-              <i class="fa fa-handshake-alt fa-lg text-primary"></i>
+        <div class="col-sm-6 col-xl">
+          <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-fruit">
+            <div class="block-content block-content-full flex-grow-1">
+              <div class="item rounded-3 bg-body mx-auto my-3">
+                <i class="fa fa-handshake-alt fa-lg text-primary"></i>
+              </div>
+              <div class="fs-1 fw-bold text-white">{{ participantCount() }}</div>
+              <div class="text-muted mb-3 text-white">{{ trans('Total Peserta') }}</div>
             </div>
-            <div class="fs-1 fw-bold text-white">{{ participantCount() }}</div>
-            <div class="text-muted mb-3 text-white">{{ trans('Total Peserta') }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+@else 
+  <div class="container-fluid">
+    <div class="fade-in">
+      <div class="row items-push">
+        <div class="col-sm-6 col-xl">
+          <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-lake-op">
+            <div class="block-content block-content-full flex-grow-1">
+              <div class="item rounded-3 bg-body mx-auto my-3">
+                <i class="fa fa-eye fa-lg text-primary"></i>
+              </div>
+              <div class="fs-1 fw-bold text-white">{{ journalReviewCount() }}</div>
+              <div class="text-muted mb-3 text-white">{{ trans('Total Jurnal Yang Sedang Direview') }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl">
+          <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-sea-op">
+            <div class="block-content block-content-full flex-grow-1">
+              <div class="item rounded-3 bg-body mx-auto my-3">
+                <i class="fa fa-file fa-lg text-primary"></i>
+              </div>
+              <div class="fs-1 fw-bold text-white">{{ journalRevisionCount() }}</div>
+              <div class="text-muted mb-3 text-white">{{ trans('Total Jurnal Yang Sedang Direvisi') }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl">
+          <div class="block block-rounded text-center d-flex flex-column h-100 mb-0 bg-gd-fruit">
+            <div class="block-content block-content-full flex-grow-1">
+              <div class="item rounded-3 bg-body mx-auto my-3">
+                <i class="fa fa-handshake-alt fa-lg text-primary"></i>
+              </div>
+              <div class="fs-1 fw-bold text-white">{{ journalFinalCount() }}</div>
+              <div class="text-muted mb-3 text-white">{{ trans('Total Jurnal Yang Sudah Final') }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@endif
+
 
 <div class="block block-rounded">
   <div class="block-header block-header-default">

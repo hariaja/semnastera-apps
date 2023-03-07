@@ -3,6 +3,8 @@
 use App\Models\User;
 use App\Helpers\StatusConstant;
 use App\Models\ActivityLog;
+use App\Models\Journal;
+use App\Models\Transaction;
 use SebastianBergmann\Type\TrueType;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -45,7 +47,28 @@ function activityLogDatatables()
     ->make(true);
 }
 
-function helpers()
+function transactionCount()
 {
-  # code...
+  return Transaction::where('user_id', userLogin()->id)->count();
+}
+
+function journalRevisionCount()
+{
+  return Journal::where('user_id', userLogin()->id)
+    ->where('status', StatusConstant::ON_REVISION)
+    ->count();
+}
+
+function journalFinalCount()
+{
+  return Journal::where('user_id', userLogin()->id)
+    ->where('status', StatusConstant::FINAL)
+    ->count();
+}
+
+function journalReviewCount()
+{
+  return Journal::where('user_id', userLogin()->id)
+    ->where('status', StatusConstant::ON_REVIEW)
+    ->count();
 }

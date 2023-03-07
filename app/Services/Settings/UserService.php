@@ -2,7 +2,6 @@
 
 namespace App\Services\Settings;
 
-use App\Models\User;
 use Exception;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\DB;

@@ -76,7 +76,7 @@ class RoleRepository
       })
       ->addColumn('action', function ($query) {
         $edit = '<a href="' . route('roles.edit', $query->id) . '" class="text-warning me-2"><i class="fa fa-pencil"></i></a>';
-        $delete = '<a href="#" onclick="deleteRole(`' . route('roles.destroy', $query->id) . '`)" class="text-danger delete-roles me-2"><i class="fa fa-trash"></i></a>';
+        $delete = '<a href="#" onclick="deleteRole(`' . route('roles.destroy', $query->id) . '`)" class="text-danger me-2"><i class="fa fa-trash"></i></a>';
         return $edit . $delete;
       })
       ->rawColumns(['action'])

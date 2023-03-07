@@ -73,16 +73,6 @@ class User extends Authenticatable implements MustVerifyEmail
     'address'
   ];
 
-  // protected static $ignoreChangeAttribute = ['password', 'updated_at'];
-  // protected static $recordEvents = ['created', 'updated', 'deleted'];
-  // protected static $logOnlyDirty = true;
-  // protected static $logName = 'user';
-
-  // public function getDescriptionForEvent(string $eventName): string
-  // {
-  //   return "You have {$eventName} user";
-  // }
-
   /**
    * Get the route key for the model.
    */
@@ -91,14 +81,8 @@ class User extends Authenticatable implements MustVerifyEmail
     return 'unique_id';
   }
 
-  // public function getActivitylogOptions(): LogOptions
-  // {
-  //   return LogOptions::defaults();
-  // }
-
   /**
    * Return Default Avatar
-   * For All User Apps
    *
    */
   public function getDefaultAvatar()

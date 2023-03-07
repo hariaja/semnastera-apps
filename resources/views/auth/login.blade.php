@@ -49,11 +49,11 @@
             <div class="d-sm-flex justify-content-sm-between align-items-sm-center text-center text-sm-start mb-4">
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                <label class="form-check-label" for="remember">{{ trans('Remember Me') }}</label>
+                <label class="form-check-label" for="remember">{{ trans('Ingat Saya') }}</label>
               </div>
               <div class="fw-semibold fs-sm py-1">
                 @if (Route::has('password.request'))
-                  <a href="{{ route('password.request') }}">{{ trans('Forgot Password?') }}</a>
+                  <a href="{{ route('password.request') }}">{{ trans('Lupa Kata Sandi?') }}</a>
                 @endif
               </div>
             </div>
