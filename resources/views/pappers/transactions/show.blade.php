@@ -29,7 +29,7 @@
           <ul class="list-group push">
             <li class="list-group-item d-flex justify-content-between align-items-center">
               {{ trans('Nama') }}
-              <span class="fw-semibold">{{ $transaction->user->first_name . " " . $transaction->user->last_name }}</span>
+              <span class="fw-semibold">{{ $transaction->user->getUserFullNameLong() }}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
               {{ trans('Jumlah Pembayaran') }}
@@ -140,7 +140,7 @@
       Swal.fire({
         icon: 'warning',
         title: 'Apakah Anda Yakin?',
-        html: 'Dengan menekan tombol hapus, Maka <b>Semua Data</b> akan hilang!',
+        html: 'Dengan menekan tombol ubah, Maka <b>Data Transaksi</b> akan berubah!',
         showCancelButton: true,
         confirmButtonText: 'Ubah Data',
         cancelButtonText: 'Batalkan',
@@ -176,7 +176,6 @@
           $('#update').prop('disabled', false)
         }
       })
-
     })
   </script>
 

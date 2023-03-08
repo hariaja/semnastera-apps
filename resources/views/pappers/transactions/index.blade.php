@@ -90,7 +90,7 @@
           },
           {
             "name": "upload_date",
-            "title": "Tanggal Upload",
+            "title": "Tanggal Bayar",
             "data": "upload_date",
             "class": 'text-center',
             "searchable": false,

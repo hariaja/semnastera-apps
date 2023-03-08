@@ -180,7 +180,7 @@ class PermissionSeeder extends Seeder
         'updated_at' => now()
       ],
       [
-        'name' => 'transactions.edit',
+        'name' => 'transactions.update',
         'permission_category_id' => 4,
         'guard_name' => 'web',
         'created_at' => now(),
@@ -217,21 +217,37 @@ class PermissionSeeder extends Seeder
         'updated_at' => now()
       ],
       [
-        'name' => 'journals.edit',
-        'permission_category_id' => 5,
-        'guard_name' => 'web',
-        'created_at' => now(),
-        'updated_at' => now()
-      ],
-      [
-        'name' => 'journals.update',
-        'permission_category_id' => 5,
-        'guard_name' => 'web',
-        'created_at' => now(),
-        'updated_at' => now()
-      ],
-      [
         'name' => 'journals.destroy',
+        'permission_category_id' => 5,
+        'guard_name' => 'web',
+        'created_at' => now(),
+        'updated_at' => now()
+      ],
+
+      // Halaman Revisions
+      [
+        'name' => 'revisions.index',
+        'permission_category_id' => 5,
+        'guard_name' => 'web',
+        'created_at' => now(),
+        'updated_at' => now()
+      ],
+      [
+        'name' => 'revisions.store',
+        'permission_category_id' => 5,
+        'guard_name' => 'web',
+        'created_at' => now(),
+        'updated_at' => now()
+      ],
+      [
+        'name' => 'revisions.show',
+        'permission_category_id' => 5,
+        'guard_name' => 'web',
+        'created_at' => now(),
+        'updated_at' => now()
+      ],
+      [
+        'name' => 'revisions.destroy',
         'permission_category_id' => 5,
         'guard_name' => 'web',
         'created_at' => now(),

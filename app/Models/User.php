@@ -145,6 +145,11 @@ class User extends Authenticatable implements MustVerifyEmail
     return $this->hasMany(Journal::class, 'user_id');
   }
 
+  public function revisions()
+  {
+    return $this->hasMany(Revision::class, 'revision_by');
+  }
+
   public function getUserFullNameLong()
   {
     if ($this->getUserFirstTitle() && $this->getUserLastTitle()) :

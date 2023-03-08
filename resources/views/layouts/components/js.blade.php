@@ -19,6 +19,7 @@
     <script src="{{ asset('assets/dashmix/src/assets/js/plugins/magnific-popup/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('assets/dashmix/src/assets/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/dashmix/src/assets/js/plugins/flatpickr/flatpickr.min.js') }}"></script>
+    <script src="{{ asset('assets/dashmix/src/assets/js/plugins/ckeditor5-classic/build/ckeditor.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 
     <!-- Page JS Code -->
@@ -29,7 +30,8 @@
         'jq-select2',
         'jq-magnific-popup',
         'jq-datepicker',
-        'js-flatpickr'
+        'js-flatpickr',
+        'js-ckeditor5'
       ])
     </script>
 

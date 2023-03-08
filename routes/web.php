@@ -39,8 +39,8 @@ Route::middleware(['auth', 'permission', 'verified'])->group(function () {
 
   # Pappers
   Route::prefix('pappers')->group(function () {
-    Route::resource('journals', JournalController::class);
+    Route::resource('journals', JournalController::class)->except('update', 'edit');
     Route::resource('registrations', RegistrationController::class)->except('show');
-    Route::resource('transactions', TransactionController::class)->except('destroy');
+    Route::resource('transactions', TransactionController::class)->except('destroy', 'edit');
   });
 });

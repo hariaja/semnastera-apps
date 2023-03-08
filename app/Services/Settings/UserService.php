@@ -31,6 +31,11 @@ class UserService
     return $execute;
   }
 
+  public function presenter()
+  {
+    return $this->userRepository->presenter();
+  }
+
   public function show($id)
   {
     return $this->userRepository->show($id);

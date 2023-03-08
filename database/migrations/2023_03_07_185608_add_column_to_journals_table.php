@@ -12,7 +12,8 @@ return new class extends Migration
   public function up(): void
   {
     Schema::table('journals', function (Blueprint $table) {
-      $table->string('status')->default('New Upload')->after('upload_year');
+      $table->string('status')->default('Pending')->after('upload_year');
+      $table->softDeletes();
     });
   }
 

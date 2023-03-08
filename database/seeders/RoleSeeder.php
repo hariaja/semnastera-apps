@@ -38,7 +38,21 @@ class RoleSeeder extends Seeder
     $pemakalah->syncPermissions(
       Permission::where('name', 'LIKE', 'transactions.%')
         ->orWhere('name', 'LIKE', 'users.show')
-        ->orWhere('name', 'LIKE', 'users.update')->get()
+        ->orWhere('name', 'LIKE', 'users.update')
+        ->orWhere('name', 'LIKE', 'journals.index')
+        ->orWhere('name', 'LIKE', 'journals.create')
+        ->orWhere('name', 'LIKE', 'journals.store')
+        ->orWhere('name', 'LIKE', 'journals.show')
+        ->orWhere('name', 'LIKE', 'revisions.index')
+        ->orWhere('name', 'LIKE', 'revisions.show')->get()
+    );
+
+    $reviewer = $roles->where('name', 'Reviewer')->first();
+    $reviewer->syncPermissions(
+      Permission::where('name', 'LIKE', 'users.show')
+        ->orWhere('name', 'LIKE', 'users.update')
+        ->orWhere('name', 'LIKE', 'journals.*')
+        ->orWhere('name', 'LIKE', 'revisions.*')->get()
     );
 
     $peserta = $roles->where('name', 'Peserta')->first();

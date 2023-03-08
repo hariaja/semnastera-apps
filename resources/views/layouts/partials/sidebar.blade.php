@@ -39,37 +39,44 @@
       <ul class="nav-main">
         
         <li class="nav-main-item">
-          <a class="nav-main-link {{ Request::is('home*') ? 'active' : '' }}" href="{{ route('home') }}">
+          <a class="nav-main-link {{ request()->is('home*') ? 'active' : '' }}" href="{{ route('home') }}">
             <i class="nav-main-link-icon fa fa-home"></i>
             <span class="nav-main-link-name">{{ trans('page.overview.title') }}</span>
           </a>
         </li>
 
-        @if(userLogin()->hasAnyPermission(['registrations.index', 'transactions.index']) || userRole() == 'Administrator')
+        @if(userLogin()->hasAnyPermission(['registrations.index', 'transactions.index', 'journal.index', 'journal.crate']) || userRole() == 'Administrator')
           <li class="nav-main-heading">{{ trans('Papper') }}</li>
-          <li class="nav-main-item {{ Request::is('pappers*') ? 'open' : '' }}">
-            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ Request::is('pappers*') ? 'true' : 'false' }}" href="#">
+          <li class="nav-main-item {{ request()->is('pappers*') ? 'open' : '' }}">
+            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('pappers*') ? 'true' : 'false' }}" href="#">
               <i class="nav-main-link-icon fa fa-file"></i>
               <span class="nav-main-link-name">{{ trans('Papper') }}</span>
             </a>
             <ul class="nav-main-submenu">
               @can('transactions.index')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ Request::is('pappers/transactions*') ? 'active' : '' }}" href="{{ route('transactions.index') }}">
+                <a class="nav-main-link {{ request()->is('pappers/transactions*') ? 'active' : '' }}" href="{{ route('transactions.index') }}">
                   <span class="nav-main-link-name">{{ trans('Transaksi') }}</span>
                 </a>
               </li>
               @endcan
               @can('journals.index')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ Request::is('pappers/journals*') ? 'active' : '' }}" href="{{ route('journals.index') }}">
+                <a class="nav-main-link {{ request()->is('pappers/journals*') ? 'active' : '' }}" href="{{ route('journals.index') }}">
                   <span class="nav-main-link-name">{{ trans('Makalah') }}</span>
+                </a>
+              </li>
+              @endcan
+              @can('journals.create')
+              <li class="nav-main-item">
+                <a class="nav-main-link {{ request()->is('pappers/journals/create') ? 'active' : '' }}" href="{{ route('journals.create') }}">
+                  <span class="nav-main-link-name">{{ trans('Upload Makalah') }}</span>
                 </a>
               </li>
               @endcan
               @can('registrations.index')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ Request::is('pappers/registrations*') ? 'active' : '' }}" href="{{ route('registrations.index') }}">
+                <a class="nav-main-link {{ request()->is('pappers/registrations*') ? 'active' : '' }}" href="{{ route('registrations.index') }}">
                   <span class="nav-main-link-name">{{ trans('Jadwal Submit') }}</span>
                 </a>
               </li>
@@ -80,22 +87,22 @@
 
         @if(userLogin()->hasAnyPermission(['roles.index', 'users.index']) || userRole() == 'Administrator')
           <li class="nav-main-heading">{{ trans('Management') }}</li>
-          <li class="nav-main-item {{ Request::is('settings*') ? 'open' : '' }}">
-            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ Request::is('settings*') ? 'true' : 'false' }}" href="#">
+          <li class="nav-main-item {{ request()->is('settings*') ? 'open' : '' }}">
+            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('settings*') ? 'true' : 'false' }}" href="#">
               <i class="nav-main-link-icon fa fa-cog"></i>
               <span class="nav-main-link-name">{{ trans('Settings') }}</span>
             </a>
             <ul class="nav-main-submenu">
               @can('users.index')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ Request::is('settings/users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
+                <a class="nav-main-link {{ request()->is('settings/users*') ? 'active' : '' }}" href="{{ route('users.index') }}">
                   <span class="nav-main-link-name">{{ trans('Pengguna') }}</span>
                 </a>
               </li>
               @endcan
               @can('roles.index')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ Request::is('settings/roles*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
+                <a class="nav-main-link {{ request()->is('settings/roles*') ? 'active' : '' }}" href="{{ route('roles.index') }}">
                   <span class="nav-main-link-name">{{ trans('Role & Permission') }}</span>
                 </a>
               </li>
