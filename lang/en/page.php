@@ -62,4 +62,12 @@ return [
     'edit' => 'Ubah Data Makalah',
   ],
 
+  'revisions' => [
+    'title' => 'Halaman Revisi',
+    'index' => 'Tabel Data Revisi',
+    'show' => 'Detail Data Revisi',
+    'create' => 'Tambah Data Revisi',
+    'edit' => 'Ubah Data Revisi',
+  ],
+
 ];

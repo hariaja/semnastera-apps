@@ -6,6 +6,7 @@ use App\Models\Journal;
 use Illuminate\Support\Str;
 use App\Helpers\StatusConstant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class JournalRepository
@@ -18,11 +19,9 @@ class JournalRepository
   public function index()
   {
     if (userRole() == StatusConstant::ADMIN || userRole() == StatusConstant::REVIEWER) :
-      return $this->journal->select('*')->orderBy('id', 'ASC');
+      return $this->journal->orderBy('id', 'ASC')->get();
     else :
-      return $this->journal->select('*')
-        ->orderBy('id', 'ASC')
-        ->where('user_id', userLogin()->id);
+      return $this->journal->orderBy('id', 'ASC')->where('user_id', userLogin()->id)->get();
     endif;
   }
 
@@ -32,6 +31,9 @@ class JournalRepository
     return DataTables::of($query)->addIndexColumn()
       ->addColumn('user', function ($row) {
         return $row->user->getUserFullNameLong();
+      })
+      ->addColumn('revisions', function ($row) {
+        return $row->revisions->count();
       })
       ->addColumn('action', function ($row) {
         $admin_or_reviewer =
@@ -59,7 +61,7 @@ class JournalRepository
             </ul>
           </div>';
 
-        if (userRole() == StatusConstant::ADMIN || userRole() == StatusConstant::REVIEWER) :
+        if (userLogin()->can('journals.destroy')) :
           return $admin_or_reviewer;
         else :
           return $presenter;
@@ -86,6 +88,21 @@ class JournalRepository
   public function show($id): Model
   {
     return $this->journal->findOrFail($id);
+  }
+
+  public function showDatatables($id)
+  {
+    $journal = $this->show($id);
+    $query = $journal->revisions;
+    return DataTables::of($query)
+      ->addColumn('revision_by', function ($row) {
+        return $row->user->getUserFullNameLong();
+      })
+      ->editColumn('revision_file', function ($row) {
+        return '<a href="' . Storage::url($row->revision_file) . '" target="__blank"><span class="badge text-info">Lihat File Revisi</span></a>';
+      })
+      ->rawColumns(['revision_file'])
+      ->make(true);
   }
 
   public function update($id, $request, $file)

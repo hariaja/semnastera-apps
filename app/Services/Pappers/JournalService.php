@@ -21,13 +21,18 @@ class JournalService
     return $this->journalRepository->datatables();
   }
 
+  public function showDatatables($id)
+  {
+    return $this->journalRepository->showDatatables($id);
+  }
+
   public function store($request)
   {
     DB::beginTransaction();
     try {
       if ($request->file('file')) :
         $file = Storage::putFile(
-          'public/pdf',
+          'public/pdf/journals',
           $request->file('file')
         );
       endif;

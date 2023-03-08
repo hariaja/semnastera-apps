@@ -1,37 +1,36 @@
 @extends('layouts.app')
-@section('title') {{ trans('page.journals.title') }} @endsection
+@section('title') {{ trans('page.revisions.title') }} @endsection
 @section('hero')
 <div class="bg-body-light">
   <div class="content content-full">
     <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-      <h1 class="flex-grow-1 text-center fs-3 fw-semibold my-2 my-sm-3">{{ trans('page.journals.title') }}</h1>
+      <h1 class="flex-grow-1 text-center fs-3 fw-semibold my-2 my-sm-3">{{ trans('page.revisions.title') }}</h1>
     </div>
   </div>
 </div>
 @endsection
 @section('content')
-  <div class="block block-rounded">
-    <div class="block-header block-header-default">
-      <h3 class="block-title">
-        {{ trans('page.journals.index') }}
-      </h3>
-    </div>
-    <div class="block-content block-content-full">
-
-      <div class="table-responsive p-1">
-        <table class="table table-bordered table-hover table-striped table-vcenter journals-table"></table>
-      </div>
-
-    </div>
+<div class="block block-rounded">
+  <div class="block-header block-header-default">
+    <h3 class="block-title">
+      {{ trans('page.revisions.index') }}
+    </h3>
   </div>
+  <div class="block-content block-content-full">
+
+    <div class="table-responsive p-1">
+      <table class="table table-bordered table-hover table-striped table-vcenter revisions-table"></table>
+    </div>
+
+  </div>
+</div>
 @endsection
 @push('javascript')
   <script>
-
-    let journals_table
+    let revisions_table
 
     $(function () {
-      journals_table = $('.journals-table').DataTable({
+      revisions_table = $('.revisions-table').DataTable({
         processing: true,
         serverSide: true,
         retrieve: true,
@@ -43,7 +42,7 @@
           [5, 10, 20]
         ],
         ajax: {
-          url: '{{ route('journals.index') }}'
+          url: '{{ route('revisions.index') }}'
         },
         columns: [
           {
@@ -56,35 +55,27 @@
           },
           {
             "name": "user",
-            "title": "Pemakalah",
+            "title": "Revisi By",
             "data": "user",
             "class": 'text-center',
             "searchable": true,
             "orderable": true,
           },
           {
-            "name": "title",
-            "title": "Judul",
-            "data": "title",
+            "name": "journal",
+            "title": "Makalah",
+            "data": "journal",
             "class": 'text-center',
             "searchable": true,
             "orderable": true,
           },
           {
-            "name": "revisions",
-            "title": "Jumlah Revisi",
-            "data": "revisions",
+            "name": "batch",
+            "title": "Batch",
+            "data": "batch",
             "class": 'text-center',
-            "searchable": false,
-            "orderable": false,
-          },
-          {
-            "name": "status",
-            "title": "Status",
-            "data": "status",
-            "class": 'text-center',
-            "searchable": false,
-            "orderable": false,
+            "searchable": true,
+            "orderable": true,
           },
           {
             "name": "action",
@@ -98,6 +89,5 @@
         ],
       })
     })
-
   </script>
 @endpush

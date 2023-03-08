@@ -45,7 +45,16 @@
           </a>
         </li>
 
-        @if(userLogin()->hasAnyPermission(['registrations.index', 'transactions.index', 'journal.index', 'journal.crate']) || userRole() == 'Administrator')
+        @can('revisions.index')
+          <li class="nav-main-item">
+            <a class="nav-main-link {{ request()->is('journals/revisions*') ? 'active' : '' }}" href="{{ route('revisions.index') }}">
+              <i class="nav-main-link-icon fa fa-pencil-alt"></i>
+              <span class="nav-main-link-name">{{ trans('Daftar Revisi') }}</span>
+            </a>
+          </li>
+        @endcan
+
+        @if(userLogin()->hasAnyPermission(['registrations.index', 'transactions.index']) || userRole() == 'Administrator')
           <li class="nav-main-heading">{{ trans('Papper') }}</li>
           <li class="nav-main-item {{ request()->is('pappers*') ? 'open' : '' }}">
             <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('pappers*') ? 'true' : 'false' }}" href="#">
@@ -60,24 +69,36 @@
                 </a>
               </li>
               @endcan
+              @can('registrations.index')
+              <li class="nav-main-item">
+                <a class="nav-main-link {{ request()->is('pappers/registrations*') ? 'active' : '' }}" href="{{ route('registrations.index') }}">
+                  <span class="nav-main-link-name">{{ trans('Jadwal Submit') }}</span>
+                </a>
+              </li>
+              @endcan
+            </ul>
+          </li>
+        @endif
+
+        @if(userLogin()->hasAnyPermission(['journals.index', 'journals.crate']) || userRole() == 'Administrator')
+          <li class="nav-main-heading">{{ trans('Jurnal') }}</li>
+          <li class="nav-main-item {{ request()->is('journals*') ? 'open' : '' }}">
+            <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->is('journals*') ? 'true' : 'false' }}" href="#">
+              <i class="nav-main-link-icon fa fa-file-pdf"></i>
+              <span class="nav-main-link-name">{{ trans('Jurnal') }}</span>
+            </a>
+            <ul class="nav-main-submenu">
               @can('journals.index')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ request()->is('pappers/journals*') ? 'active' : '' }}" href="{{ route('journals.index') }}">
+                <a class="nav-main-link {{ request()->is('journals/journals*') ? 'active' : '' }}" href="{{ route('journals.index') }}">
                   <span class="nav-main-link-name">{{ trans('Makalah') }}</span>
                 </a>
               </li>
               @endcan
               @can('journals.create')
               <li class="nav-main-item">
-                <a class="nav-main-link {{ request()->is('pappers/journals/create') ? 'active' : '' }}" href="{{ route('journals.create') }}">
+                <a class="nav-main-link {{ request()->is('journals/journals/create') ? 'active' : '' }}" href="{{ route('journals.create') }}">
                   <span class="nav-main-link-name">{{ trans('Upload Makalah') }}</span>
-                </a>
-              </li>
-              @endcan
-              @can('registrations.index')
-              <li class="nav-main-item">
-                <a class="nav-main-link {{ request()->is('pappers/registrations*') ? 'active' : '' }}" href="{{ route('registrations.index') }}">
-                  <span class="nav-main-link-name">{{ trans('Jadwal Submit') }}</span>
                 </a>
               </li>
               @endcan

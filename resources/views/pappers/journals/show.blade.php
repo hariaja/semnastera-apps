@@ -23,7 +23,7 @@
       </div>
 
       <div class="row justify-content-center">
-        <div class="col-xl-6">
+        <div class="col-xl-10">
 
           <ul class="list-group push">
             <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -52,38 +52,6 @@
                 <span class="badge text-info">{{ trans('Lihat atau Download Disini') }}</span>
               </a>
             </li>
-          </ul>
-
-          @if(userRole() == 'Administrator' || userRole() == 'Reviewer')
-          <form action="{{ route('journals.update', $journal->code) }}" id="form-update" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('patch')
-
-            <input type="hidden" name="code" id="code" value="{{ $journal->code }}">
-
-            <div class="mb-3">
-              <label for="status" class="form-label">Ubah Status</label>
-              <select name="status" id="status" class="form-select @error('status') is-invalid @enderror">
-                <option selected="selected" disabled>{{ trans('Ubah Status') }}</option>
-                <option value="Pending" {{ old('status', $journal->status) == 'Pending' ? 'selected' : '' }}>{{ trans('Pending') }}</option>
-                <option value="On Review" {{ old('status', $journal->status) == 'On Review' ? 'selected' : '' }}>{{ trans('On Review') }}</option>
-                <option value="Final" {{ old('status', $journal->status) == 'Final' ? 'selected' : '' }}>{{ trans('Final') }}</option>
-              </select>
-              @error('status')
-                <div class="invalid-feedback"><b>{{ $message }}</b></div>
-              @enderror
-            </div>
-
-            <div class="mb-3">
-              <button type="button" class="btn btn-primary" id="update">{{ trans('page.edit') }}</button>
-            </div>
-
-          </form>
-        @endif
-
-        </div>
-        <div class="col-xl-6">
-          <ul class="list-group push">
             {{-- Title --}}
             <li class="list-group-item text-center">
               <span class="text-center">{{ trans('Judul Makalah') }}</span>
@@ -92,15 +60,62 @@
               <span class="fw-semibold">{{ $journal->title }}</span>
             </li>
             {{-- Title --}}
-            {{-- Abstract --}}
-            <li class="list-group-item text-center">
-              <span class="text-center">{{ trans('Abstract') }}</span>
-            </li>
-            <li class="list-group-item text-center">
-              <span class="fw-semibold">{!! $journal->abstract !!}</span>
-            </li>
-            {{-- Abstract --}}
           </ul>
+
+          @if(userRole() == 'Administrator' || userRole() == 'Reviewer')
+            <form action="{{ route('revisions.store') }}" id="form-update" method="POST" enctype="multipart/form-data">
+              @csrf
+
+              <input type="hidden" name="journal_id" id="journal_id" value="{{ $journal->id }}">
+              <input type="hidden" name="revision_by" id="revision_by" value="{{ userLogin()->id }}">
+
+              <div class="mb-3">
+                <label for="status" class="form-label">Ubah Status</label>
+                <select name="status" id="status" class="form-select @error('status') is-invalid @enderror">
+                  <option selected="selected" disabled>{{ trans('Ubah Status') }}</option>
+                  <option value="Pending" {{ old('status', $journal->status) == 'Pending' ? 'selected' : '' }}>{{ trans('Pending') }}</option>
+                  <option value="On Review" {{ old('status', $journal->status) == 'On Review' ? 'selected' : '' }}>{{ trans('On Review') }}</option>
+                  <option value="Final" {{ old('status', $journal->status) == 'Final' ? 'selected' : '' }}>{{ trans('Final') }}</option>
+                </select>
+                @error('status')
+                  <div class="invalid-feedback"><b>{{ $message }}</b></div>
+                @enderror
+              </div>
+
+              <div class="mb-3">
+                <label for="batch" class="form-label">Batch</label>
+                <input type="text" name="batch" id="batch" class="form-control @error('batch') is-invalid @enderror" value="{{ old('batch') }}" placeholder="ex. Revisi 1 (Satu)">
+                @error('batch')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+
+              <div class="mb-3">
+                <label for="revision_file" class="form-label">{{ __('Upload File Revisi') }}</label>
+                <input type="file" accept="application/pdf" name="revision_file" id="revision_file" class="form-control @error('revision_file') is-invalid @enderror">
+                <small class="text-muted">{{ trans('Hanya boleh memasukkan file dengan format .pdf') }}</small>
+                @error('revision_file')
+                  <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+              </div>
+
+              <div class="mb-3">
+                <button type="submit" class="btn btn-primary">{{ trans('page.edit') }}</button>
+              </div>
+
+            </form>
+          @endif
+
+          @if(userRole() == 'Pemakalah')
+          <div class="table-responsive p-3">
+            <input type="hidden" name="journal_code" id="journal_code" value="{{ $journal->code }}">
+            <div class="mb-3">
+              <h6>{{ trans('Detail Data Revisi') }}</h6>
+            </div>
+            <table class="table table-bordered table-hover table-striped table-vcenter journals-revisions-table"></table>
+          </div>
+          @endif
+
         </div>
       </div>
 
@@ -109,47 +124,47 @@
 @endsection
 @push('javascript')
   <script>
+    let journals_revisions_table
     $(function () {
-      $('#update').click(function (e) {
-        e.preventDefault()
-        $('#update').prop('disabled', true)
-        Swal.fire({
-          icon: 'warning',
-          title: 'Apakah Anda Yakin?',
-          html: 'Dengan menekan tombol ubah, Maka <b>Data Jurnal</b> akan berubah!',
-          showCancelButton: true,
-          confirmButtonText: 'Ubah Data',
-          cancelButtonText: 'Batalkan',
-          cancelButtonColor: '#E74C3C',
-          confirmButtonColor: '#3498DB'
-        }).then((result) => {
-          if (result.value) {
-            
-            let code = $('#code').val()
-            let url = '/pappers/journals/' + code
-            
-            $.post(url, {
-              '_token': $('[name=csrf-token]').attr('content'),
-              'status': $('#status').val(),
-              '_method': 'patch'
-            }).done((response) => {
-              location.reload()
-            })
-
-          } else if (result.dismiss == swal.DismissReason.cancel) {
-            Swal.fire({
-              icon: 'error',
-              title: 'Dibatalkan',
-              text: 'Tidak ada perubahan disimpan',
-              showConfirmButton: 'Ok',
-              customClass: {
-                confirmButton: 'btn btn-indigo',
-              }
-            })
-            $('#loading-text').hide()
-            $('#update').prop('disabled', false)
+      var journal_code = $('#journal_code').val()
+      var url = '/journals/journals/' + journal_code
+      journals_revisions_table = $('.journals-revisions-table').DataTable({
+        processing: true,
+        serverSide: true,
+        retrieve: true,
+        responsive: true,
+        autoWidth: false,
+        pageLength: 5,
+        lengthMenu: [
+          [5, 10, 20],
+          [5, 10, 20]
+        ],
+        ajax: {
+          url: url
+        },
+        columns: [
+          {
+            "title": "Batch",
+            "data": "batch",
+            "searchable": true, 
+            "sortable": true,
+            "class": "text-center",
+          },
+          {
+            "title": "Direvisi Oleh",
+            "data": "revision_by",
+            "searchable": false, 
+            "sortable": false,
+            "class": "text-center",
+          },
+          {
+            "title": "File Revisi",
+            "data": "revision_file",
+            "searchable": false, 
+            "sortable": false,
+            "class": "text-center",
           }
-        })
+        ],
       })
     })
   </script>

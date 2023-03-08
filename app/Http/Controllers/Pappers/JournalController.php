@@ -56,8 +56,11 @@ class JournalController extends Controller
   /**
    * Display the specified resource.
    */
-  public function show(Journal $journal)
+  public function show(Journal $journal, Request $request)
   {
+    if ($request->ajax()) :
+      return $this->journalService->showDatatables($journal->id);
+    endif;
     return view('pappers.journals.show', compact('journal'));
   }
 

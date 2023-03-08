@@ -227,28 +227,28 @@ class PermissionSeeder extends Seeder
       // Halaman Revisions
       [
         'name' => 'revisions.index',
-        'permission_category_id' => 5,
+        'permission_category_id' => 6,
         'guard_name' => 'web',
         'created_at' => now(),
         'updated_at' => now()
       ],
       [
         'name' => 'revisions.store',
-        'permission_category_id' => 5,
+        'permission_category_id' => 6,
         'guard_name' => 'web',
         'created_at' => now(),
         'updated_at' => now()
       ],
       [
         'name' => 'revisions.show',
-        'permission_category_id' => 5,
+        'permission_category_id' => 6,
         'guard_name' => 'web',
         'created_at' => now(),
         'updated_at' => now()
       ],
       [
         'name' => 'revisions.destroy',
-        'permission_category_id' => 5,
+        'permission_category_id' => 6,
         'guard_name' => 'web',
         'created_at' => now(),
         'updated_at' => now()

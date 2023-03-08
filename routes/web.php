@@ -9,6 +9,7 @@ use App\Http\Controllers\Settings\UserController;
 use App\Http\Controllers\Pappers\JournalController;
 use App\Http\Controllers\Pappers\TransactionController;
 use App\Http\Controllers\Pappers\RegistrationController;
+use App\Http\Controllers\Pappers\RevisionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,8 +40,12 @@ Route::middleware(['auth', 'permission', 'verified'])->group(function () {
 
   # Pappers
   Route::prefix('pappers')->group(function () {
-    Route::resource('journals', JournalController::class)->except('update', 'edit');
     Route::resource('registrations', RegistrationController::class)->except('show');
     Route::resource('transactions', TransactionController::class)->except('destroy', 'edit');
+  });
+
+  Route::prefix('journals')->group(function () {
+    Route::resource('journals', JournalController::class)->except('update', 'edit');
+    Route::resource('revisions', RevisionController::class)->except('update', 'edit');
   });
 });

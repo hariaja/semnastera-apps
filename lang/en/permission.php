@@ -54,4 +54,15 @@ return [
     'update' => 'Akses Memperbaharui Makalah',
     'destroy' => 'Menghapus Makalah',
   ],
+
+  'revisions' => [
+    'name' => 'Management Revisi',
+    'index' => 'Melihat Daftar Revisi',
+    'create' => 'Akses Formulir Tambah Revisi',
+    'store' => 'Akses Menambahkan Revisi',
+    'show' => 'Melihat Detail Revisi',
+    'edit' => 'Akses Formulir Ubah Revisi',
+    'update' => 'Akses Memperbaharui Revisi',
+    'destroy' => 'Menghapus Revisi',
+  ],
 ];
